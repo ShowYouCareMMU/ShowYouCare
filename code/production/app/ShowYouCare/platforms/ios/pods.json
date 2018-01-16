@@ -1,0 +1,8 @@
+{
+    "OneSignal": {
+        "name": "OneSignal",
+        "type": "podspec",
+        "spec": "2.6.0",
+        "count": 1
+    }
+}

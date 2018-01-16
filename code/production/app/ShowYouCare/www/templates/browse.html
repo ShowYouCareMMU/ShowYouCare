@@ -1,0 +1,9 @@
+<ion-view view-title="Browse">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="incident in incidents" href="#/app/browse/{{incident.id}}">
+        {{incident.datetime.toLocaleDateString()}} {{incident.datetime.toLocaleTimeString()}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
