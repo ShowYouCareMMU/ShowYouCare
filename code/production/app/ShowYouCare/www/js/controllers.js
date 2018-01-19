@@ -34,12 +34,6 @@ angular.module('syc.controllers', [])
 
 .controller('NewIncidentCtrl', function($scope) {
 
-
-  window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-    console.log(status.subscriptionStatus.userId)
-  })
-
-
   // Nat: https://www.npmjs.com/package/cordova-plugin-qrscanner
   // The above library has been included and some starter
   // code has been included below. You'll have to test your
