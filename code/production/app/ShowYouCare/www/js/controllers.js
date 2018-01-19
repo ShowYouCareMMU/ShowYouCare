@@ -69,7 +69,7 @@ angular.module('syc.controllers', [])
 
 
       window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-        playerId: status.subscriptionStatus.userId
+        var playerId = status.subscriptionStatus.userId
       })
 
       // {
