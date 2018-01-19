@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('syc.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -6,12 +6,23 @@ angular.module('starter.controllers', [])
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
+  // $scope.$on('$ionicView.enter', function(e) {
   //});
 
 })
 
 .controller('BrowseCtrl', function($scope) {
+
+  // Andreas:
+  // Pull in the incidents here and put them in an array
+  // similar to below. There'll be other bits of data
+  // coming back from the server that you might want to
+  // display as well so you might want to display them.
+  // Let Backend know if there's any other bits of data
+  // you want included.
+
+  // Good luck and shout out if you're struggling
+
   $scope.incidents = [
     { id: 1, datetime: new Date(2017, 11, 1, 11, 6) },
     { id: 2, datetime: new Date(2017, 11, 5, 16, 12) },
@@ -23,6 +34,34 @@ angular.module('starter.controllers', [])
 
 .controller('NewIncidentCtrl', function($scope) {
 
+
+  window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+
+    console.log(JSON.stringify(status))
+
+    status.permissionStatus.hasPrompted;
+    status.permissionStatus.status;
+
+    status.subscriptionStatus.subscribed;
+    status.subscriptionStatus.userSubscriptionSetting;
+    status.subscriptionStatus.userId;
+    status.subscriptionStatus.pushToken;
+  });
+
+
+  // Nat: https://www.npmjs.com/package/cordova-plugin-qrscanner
+  // The above library has been included and some starter
+  // code has been included below. You'll have to test your
+  // bit from an actual device so you can scan an actual QR code
+  // Find some examples of QR codes here https://trello.com/c/maYHlUVm
+
+  // The data from the QR code should be:
+  // https://showyoucare.herokuapp.com/ABCDEF123GHIJ (or similar to)
+  // Try and strip out the host so it's just ABCDEF123GHIJ
+
+  // Good luck and shout out if you're struggling
+
+
   // Start a scan. Scanning will continue until something is detected or
   // `QRScanner.cancelScan()` is called.
   QRScanner.scan(displayContents);
@@ -33,6 +72,23 @@ angular.module('starter.controllers', [])
     } else {
       // The scan completed, display the contents of the QR code:
       alert(text);
+
+
+      // Alex:
+      // Post the data to the server here. Backend will give you
+      // a URL to post the data to. Try just using the format
+      // below for now. As for pushNotificationId, try googling around
+      // for how to store which device ID is reporting the incident
+      // We're using OneSignal if it helps (login details are on Trello)
+
+
+      // {
+      //  id: "[string from nat found above]",
+      //  pushNotificationId: [see above],
+      //  datetime: new Date()
+      // }
+
+
     }
   }
 

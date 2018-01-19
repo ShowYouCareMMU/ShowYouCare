@@ -35,6 +35,11 @@ angular.module('syc.controllers', [])
 .controller('NewIncidentCtrl', function($scope) {
 
 
+  window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+    console.log(status.subscriptionStatus.userId)
+  })
+
+
   // Nat: https://www.npmjs.com/package/cordova-plugin-qrscanner
   // The above library has been included and some starter
   // code has been included below. You'll have to test your
@@ -63,13 +68,19 @@ angular.module('syc.controllers', [])
       // Alex:
       // Post the data to the server here. Backend will give you
       // a URL to post the data to. Try just using the format
-      // below for now. As for pushNotificationId, try googling around
-      // for how to store which device ID is reporting the incident
-      // We're using OneSignal if it helps (login details are on Trello)
+      // below for now. playedId is what we use to relate user data
+      // back to OneSignal (for Push Notifications). The code to get
+      // the player ID is below so try and push that to the server
+      // as well
+
+
+      window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+        playerId: status.subscriptionStatus.userId
+      })
 
       // {
       //  id: "[string from nat found above]",
-      //  pushNotificationId: [see above],
+      //  playerId: [see above],
       //  datetime: new Date()
       // }
 
