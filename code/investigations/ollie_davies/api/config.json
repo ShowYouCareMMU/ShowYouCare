@@ -1,7 +1,0 @@
-{
-  "appId": "pnei8E3tuXW6x5kUE8btYPGS5DLobx9lQdXDTDoS",
-  "masterKey": "h47sGbeKkOc71TtKcDQ06XlfKIccOTaMhMjGyQ9z",
-  "appName": "ShowYouCare",
-  "cloud": "./cloud/main",
-  "databaseURI": "mongodb://127.0.0.1:27017/parse"
-}

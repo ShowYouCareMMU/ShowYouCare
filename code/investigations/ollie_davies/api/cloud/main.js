@@ -1,2 +1,0 @@
-// Cloud Code entry point
-
