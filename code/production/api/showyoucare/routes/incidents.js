@@ -25,8 +25,13 @@ router.get('/:pushID', function(req, res, next) {
 
 });
 
-/* GET incidents listing. Use params to get single incident */
-router.get('/:pushID/:guid', function(req, res, next) {
+/* GET single incident. Use params to get single incident */
+router.get('/:guid', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+// POST update incident
+router.post('/:guid', function(req, res, next) {
   res.send('respond with a resource');
 });
 
