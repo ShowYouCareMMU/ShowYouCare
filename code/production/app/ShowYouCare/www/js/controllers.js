@@ -41,7 +41,7 @@ angular.module('syc.controllers', [])
   // Find some examples of QR codes here https://trello.com/c/maYHlUVm
 
   // The data from the QR code should be:
-  // https://showyoucare.herokuapp.com/ABCDEF123GHIJ (or similar to)
+  // https://showyoucare.herokuapp.com/r/ABCDEF123GHIJ (or similar to)
   // Try and strip out the host so it's just ABCDEF123GHIJ
 
   // Good luck and shout out if you're struggling
@@ -57,6 +57,8 @@ angular.module('syc.controllers', [])
     } else {
       // The scan completed, display the contents of the QR code:
       alert(text);
+
+      var code = text.replace("https://showyoucare.herokuapp.com/r/", "")
 
 
       // Alex:
