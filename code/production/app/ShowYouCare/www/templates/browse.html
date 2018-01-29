@@ -2,7 +2,8 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="incident in incidents" href="#/app/browse/{{incident.id}}">
-        {{incident.datetime.toLocaleDateString()}} {{incident.datetime.toLocaleTimeString()}}
+        <div class="time">40 minutes ago</div>
+        <div class="apoligised">Apoligised</div>
       </ion-item>
     </ion-list>
   </ion-content>
