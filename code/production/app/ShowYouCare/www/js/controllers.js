@@ -49,46 +49,53 @@ angular.module('syc.controllers', [])
 
   // Start a scan. Scanning will continue until something is detected or
   // `QRScanner.cancelScan()` is called.
-  QRScanner.scan(displayContents);
-
-  function displayContents(err, text){
-    if(err){
-      // an error occurred, or the scan was canceled (error code `6`)
-    } else {
-      // The scan completed, display the contents of the QR code:
-      alert(text);
-
-      var code = text.replace("https://showyoucare.herokuapp.com/r/", "")
+  document.addEventListener("deviceready", onDeviceReady, false);
 
 
-      // Alex:
-      // Post the data to the server here. Backend will give you
-      // a URL to post the data to. Try just using the format
-      // below for now. playedId is what we use to relate user data
-      // back to OneSignal (for Push Notifications). The code to get
-      // the player ID is below so try and push that to the server
-      // as well
+  function onDeviceReady() {
+    QRScanner.scan(displayQRInfo);
+
+    var displayQRInfo = function(err, qrInfo){
+      if(err){
+  		console.error(err._message);
+      } else {
+  	  //uncomment alert for testing
+  	  //alert(qrInfo);
+
+  	    var qrCode = qrInfo.toString();
+
+        var code = "https://showyoucare.herokuapp.com/r/" + qrCode;
 
 
-      window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-        var playerId = status.subscriptionStatus.userId
-      })
-
-      // {
-      //  id: "[string from nat found above]",
-      //  playerId: [see above],
-      //  datetime: new Date()
-      // }
+        // Alex:
+        // Post the data to the server here. Backend will give you
+        // a URL to post the data to. Try just using the format
+        // below for now. playedId is what we use to relate user data
+        // back to OneSignal (for Push Notifications). The code to get
+        // the player ID is below so try and push that to the server
+        // as well
 
 
+        window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+          var playerId = status.subscriptionStatus.userId
+        })
+
+        // {
+        //  id: "[string from nat found above]",
+        //  playerId: [see above],
+        //  datetime: new Date()
+        // }
+
+
+      }
     }
+
+    // Make the webview transparent so the video preview is visible behind it.
+    QRScanner.show();
+    // Be sure to make any opaque HTML elements transparent here to avoid
+    // covering the video.
+
   }
-
-  // Make the webview transparent so the video preview is visible behind it.
-  QRScanner.show();
-  // Be sure to make any opaque HTML elements transparent here to avoid
-  // covering the video.
-
 })
 
 
