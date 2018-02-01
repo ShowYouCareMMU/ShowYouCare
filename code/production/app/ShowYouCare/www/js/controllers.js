@@ -51,7 +51,6 @@ angular.module('syc.controllers', [])
   // `QRScanner.cancelScan()` is called.
   document.addEventListener("deviceready", onDeviceReady, false);
 
-
   function onDeviceReady() {
     QRScanner.scan(displayQRInfo);
 

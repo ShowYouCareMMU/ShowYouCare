@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+      <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:100,400,700" rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="responsive.css">
+    </head>
+    <body>
+      <div class="wrapper">
+        <div class="header">
+          <h1>Someone feels bummed out by your parking</h1>
+          <p>{{ time }}</p>
+        </div>
+      </div>
+
+      <div class="wrapper">
+        <div class="content">
+          <p>Dear Driver,</p>
+          <p>Someone reported your parking today because your vehicle was {{ reason }}.</p>
+          <p>Although your vehicle may not have been parked illegally, it’s caused someone distress. We’re bridging the gap between two strangers in an attempt to make the area you share a safer place.</p>
+          <p><i>Safe driving,</i></p>
+          <p><i>Show You Care Team</i></p>
+        </div>
+      </div>
+
+      <div class="wrapper">
+        <div class="actions">
+          <button class="btn blue" id="apologise">Apoligise to the stranger</button>
+          <button class="btn" id="ignore">Ignore</button>
+        </div>
+      </div>
+
+      <div class="result apologised">
+        <div class="wrapper">
+          <img src="images/success.png" />
+          <h1>Thank you</h1>
+          <p>Your apology has been sent</p>
+        </div>
+      </div>
+
+      <div class="result ignore">
+        <div class="wrapper">
+          <img src="images/success.png" />
+          <h1>Thank you</h1>
+          <p>Your response has been recorded</p>
+        </div>
+      </div>
+
+      <div class="result fail">
+        <div class="wrapper">
+          <img src="images/fail.png" />
+          <h1>Oh no!</h1>
+          <p>Your apology couldn't be sent at this time. Please try again later</p>
+        </div>
+      </div>
+
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

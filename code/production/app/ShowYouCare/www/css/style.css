@@ -1,4 +1,6 @@
 /* Empty. Add your own CSS if you like */
 
-.time { font-size: 20px; }
-.apoligised { background-color: blue; display: inline-block; float: right; }
+
+
+.list_view .time { font-size: 20px; float: left; margin-top: 5px; }
+.list_view .apoligised { background-color: #1f4e5f; color: #fff; padding: 5px 15px;display: inline-block; float: right; }
