@@ -1,9 +1,15 @@
 <ion-view view-title="Show You Care">
   <ion-content>
+    <a class="button button-full new-incident" href="#/app/new-incident">Add New Incident</a>
     <ion-list class="list_view">
       <ion-item ng-repeat="incident in incidents" href="#/app/browse/{{incident.id}}">
-        <div class="time">40 minutes ago</div>
-        <div class="apoligised">Apoligised</div>
+        <div class="left">
+          <div class="time">{{incident.friendlyDateTime}}</div>
+          <div class="distance">{{incident.distance}}</div>
+        </div>
+        <div class="right" ng-show="{{incident.apologised == true}}">
+          <div class="apoligised">Apoligised</div>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>

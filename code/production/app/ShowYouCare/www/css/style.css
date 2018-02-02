@@ -1,6 +1,15 @@
 /* Empty. Add your own CSS if you like */
 
+.list_view .left { float: left; }
+.list_view .right { float: right; }
 
+.list_view .time { font-size: 18px; }
+.list_view .distance { font-size: 15px; }
+.list_view .apoligised { background-color: #1f4e5f; color: #fff; padding: 5px 15px; margin-top: 5px; display: inline-block; }
 
-.list_view .time { font-size: 20px; float: left; margin-top: 5px; }
-.list_view .apoligised { background-color: #1f4e5f; color: #fff; padding: 5px 15px;display: inline-block; float: right; }
+.button.new-incident { background-color: #56a902; color: #fff; }
+
+.button.continue { background-color: #79a8a9; color: #fff; padding: 5px 40px; margin-top: 30px; }
+
+.result { height: 100%; width: 100%; text-align: center; padding: 100px 60px 50px 60px; background-color: #f4f7f7; }
+.result p { color: #1f4e5f; font-size: 22px; line-height: 1.5em; margin-top: 50px; }

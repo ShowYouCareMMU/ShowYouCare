@@ -1,4 +1,4 @@
-angular.module('syc.controllers', [])
+angular.module('syc.controllers', ['angularMoment'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -12,91 +12,71 @@ angular.module('syc.controllers', [])
 })
 
 .controller('BrowseCtrl', function($scope) {
+  
+  $http({
+    method: 'GET',
+    url: 'https://showyoucare.herokuapp.com/r/'
+  }, postData)
+  .then(function successCallback(response) {
+    $scope.success = true
+  }, function errorCallback(response) {
+    $scope.success = false
+  });
 
-  // Andreas:
-  // Pull in the incidents here and put them in an array
-  // similar to below. There'll be other bits of data
-  // coming back from the server that you might want to
-  // display as well so you might want to display them.
-  // Let Backend know if there's any other bits of data
-  // you want included.
 
-  // Good luck and shout out if you're struggling
+  var data = [
+    { id: 1, dateTime: new Date(2017, 11, 1, 11, 6), apologised: false, distance: '0.6 miles away' },
+    { id: 2, dateTime: new Date(2017, 11, 5, 16, 12), apologised: true, distance: '1.5 miles away' },
+    { id: 3, dateTime: new Date(2017, 12, 7, 9, 43), apologised: false, distance: '8 miles away' },
+    { id: 4, dateTime: new Date(2017, 12, 28, 13, 21), apologised: true, distance: '1.2 miles away' },
+    { id: 5, dateTime: new Date(2018, 1, 12, 19, 6), apologised: false, distance: '32 miles away' }
+  ]
 
-  $scope.incidents = [
-    { id: 1, datetime: new Date(2017, 11, 1, 11, 6) },
-    { id: 2, datetime: new Date(2017, 11, 5, 16, 12) },
-    { id: 3, datetime: new Date(2017, 12, 7, 9, 43) },
-    { id: 4, datetime: new Date(2017, 12, 28, 13, 21) },
-    { id: 5, datetime: new Date(2018, 1, 12, 19, 6) }
-  ];
+  for(d of data){
+    d.friendlyDateTime = moment(d.dateTime).calendar()
+  }
+
+  $scope.incidents = data
+
 })
 
-.controller('NewIncidentCtrl', function($scope) {
+.controller('NewIncidentCtrl', function($scope, $http) {
+  document.getElementById("full-content").style.opacity = 0;
 
-  // Nat: https://www.npmjs.com/package/cordova-plugin-qrscanner
-  // The above library has been included and some starter
-  // code has been included below. You'll have to test your
-  // bit from an actual device so you can scan an actual QR code
-  // Find some examples of QR codes here https://trello.com/c/maYHlUVm
-
-  // The data from the QR code should be:
-  // https://showyoucare.herokuapp.com/r/ABCDEF123GHIJ (or similar to)
-  // Try and strip out the host so it's just ABCDEF123GHIJ
-
-  // Good luck and shout out if you're struggling
-
-
-  // Start a scan. Scanning will continue until something is detected or
-  // `QRScanner.cancelScan()` is called.
-  document.addEventListener("deviceready", onDeviceReady, false);
-
-  function onDeviceReady() {
-    QRScanner.scan(displayQRInfo);
-
-    var displayQRInfo = function(err, qrInfo){
+  if(QRScanner !== null){
+    QRScanner.scan(function(err, text){
       if(err){
-  		console.error(err._message);
+        alert("Code couldn't be scanned")
       } else {
-  	  //uncomment alert for testing
-  	  //alert(qrInfo);
-
-  	    var qrCode = qrInfo.toString();
-
-        var code = "https://showyoucare.herokuapp.com/r/" + qrCode;
-
-
-        // Alex:
-        // Post the data to the server here. Backend will give you
-        // a URL to post the data to. Try just using the format
-        // below for now. playedId is what we use to relate user data
-        // back to OneSignal (for Push Notifications). The code to get
-        // the player ID is below so try and push that to the server
-        // as well
-
+        var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
 
         window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-          var playerId = status.subscriptionStatus.userId
+          var postData = {
+            pushId: status.subscriptionStatus.userId,
+            uuId: uuid,
+            datetime: new Date()
+          }
+
+          $http({
+            method: 'GET',
+            url: 'https://showyoucare.herokuapp.com/r/'
+          }, postData)
+          .then(function successCallback(response) {
+            $scope.success = true
+          }, function errorCallback(response) {
+            $scope.success = false
+          });
         })
-
-        // {
-        //  id: "[string from nat found above]",
-        //  playerId: [see above],
-        //  datetime: new Date()
-        // }
-
-
       }
-    }
-
-    // Make the webview transparent so the video preview is visible behind it.
+      document.getElementById("full-content").style.opacity = 1;
+      QRScanner.destroy();
+    });
     QRScanner.show();
-    // Be sure to make any opaque HTML elements transparent here to avoid
-    // covering the video.
-
   }
 })
 
 
 .controller('IncidentCtrl', function($scope, $stateParams) {
+
+  console.log("IncidentCtrl :: init")
 });

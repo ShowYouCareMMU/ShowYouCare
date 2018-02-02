@@ -1,5 +1,15 @@
 <ion-view view-title="New Incident">
   <ion-content>
-    <h1>New Incident</h1>
+    <div class="">{{success}}</div>
+    <div class="result success" ng-show="success === true">
+      <img src="img/success.png" />
+      <p>Place the sticker on the car and we'll handle the rest</p>
+      <a href="#/app/" class="button continue">Continue</a>
+    </div>
+    <div class="result fail" ng-show="success === false">
+      <img src="img/fail.png" />
+      <p>We couldn't send your request right now. Please try again later.</p>
+      <a href="#/app/" class="button continue">Continue</a>
+    </div>
   </ion-content>
 </ion-view>
