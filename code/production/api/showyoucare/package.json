@@ -12,6 +12,7 @@
     "express": "~4.15.5",
     "hbs": "~4.0.1",
     "morgan": "~1.9.0",
+    "restlet": "^0.4.1",
     "serve-favicon": "~2.4.5",
     "unirest": "^0.5.1"
   }

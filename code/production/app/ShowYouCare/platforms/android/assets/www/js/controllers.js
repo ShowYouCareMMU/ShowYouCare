@@ -12,17 +12,17 @@ angular.module('syc.controllers', ['angularMoment'])
 })
 
 .controller('BrowseCtrl', function($scope) {
+  
+  $http({
+    method: 'GET',
+    url: 'https://showyoucare.herokuapp.com/r/'
+  }, postData)
+  .then(function successCallback(response) {
+    $scope.success = true
+  }, function errorCallback(response) {
+    $scope.success = false
+  });
 
-  // $http({
-  //   method: 'GET',
-  //   url: '/someUrl'
-  // }).then(function successCallback(response) {
-  //   // this callback will be called asynchronously
-  //   // when the response is available
-  // }, function errorCallback(response) {
-  //   // called asynchronously if an error occurs
-  //   // or server returns response with an error status.
-  // });
 
   var data = [
     { id: 1, dateTime: new Date(2017, 11, 1, 11, 6), apologised: false, distance: '0.6 miles away' },
@@ -43,39 +43,36 @@ angular.module('syc.controllers', ['angularMoment'])
 .controller('NewIncidentCtrl', function($scope, $http) {
   document.getElementById("full-content").style.opacity = 0;
 
-  console.log($scope)
+  if(QRScanner !== null){
+    QRScanner.scan(function(err, text){
+      if(err){
+        alert("Code couldn't be scanned")
+      } else {
+        var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
 
-  QRScanner.scan(function(err, text){
-    if(err){
-      alert("Code couldn't be scanned")
-    } else {
-      var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
+        window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+          var postData = {
+            pushId: status.subscriptionStatus.userId,
+            uuId: uuid,
+            datetime: new Date()
+          }
 
-      window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-        var postData = {
-          pushId: status.subscriptionStatus.userId,
-          uuId: uuid,
-          datetime: new Date()
-        }
-
-        $http({
-          method: 'GET',
-          url: 'https://showyoucare.herokuapp.com/r/'
-        }, postData)
-        .then(function successCallback(response) {
-          console.log($scope)
-          $scope.success = true
-        }, function errorCallback(response) {
-          console.log($scope)
-          $scope.success = false
-        });
-      })
-    }
-    document.getElementById("full-content").style.opacity = 1;
-    QRScanner.destroy();
-  });
-
-  QRScanner.show();
+          $http({
+            method: 'GET',
+            url: 'https://showyoucare.herokuapp.com/r/'
+          }, postData)
+          .then(function successCallback(response) {
+            $scope.success = true
+          }, function errorCallback(response) {
+            $scope.success = false
+          });
+        })
+      }
+      document.getElementById("full-content").style.opacity = 1;
+      QRScanner.destroy();
+    });
+    QRScanner.show();
+  }
 })
 
 

@@ -1,90 +1,45 @@
-#!/usr/bin/env node
+// server.js
 
-/**
- * Module dependencies.
- */
+// BASE SETUP
+// =============================================================================
 
-var app = require('../app');
-var debug = require('debug')('showyoucare:server');
-var http = require('http');
+// call the packages we need
+var express    = require('express');        // call express
+var app        = express();                 // define our app using express
+var bodyParser = require('body-parser');
+var getIncident = require('../routes/getIncident');
+var pushIncident = require("../routes/pushIncident");
 
-/**
- * Get port from environment and store in Express.
- */
+// configure app to use bodyParser()
+// this will let us get the data from a POST
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('bin'))
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+var port = process.env.PORT || 8080;        // set our port
 
-/**
- * Create HTTP server.
- */
+// ROUTES FOR OUR API
+// =============================================================================
+var router = express.Router();              // get an instance of the express Router
 
-var server = http.createServer(app);
+//push incident to restlet
+router.post('/push', function (req, res) {
+  var pushid = req.body.pushid;
+  var descriptionid = req.body.descriptionid;
+  pushIncident.push(pushid, descriptionid);
+})
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+//get an incident from restlet
+router.get('/get', function(req, res) {
+    var uuid = req.query.uuid;
+    getIncident.get(uuid);
+});
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+// REGISTER OUR ROUTES -------------------------------
+// all of our routes will be prefixed with /api
+app.use('/api', router);
 
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
-
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
+// START THE SERVER
+// =============================================================================
+app.listen(port);
+console.log('API running on port ' + port);
