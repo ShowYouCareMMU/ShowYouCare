@@ -2,7 +2,7 @@ var unirest = require("unirest");
 
 module.exports = {
   get: function(uuId, cb){
-    if(uuid != null){
+    if(uuId != null){
       var req = unirest("GET", "https://showyoucareapi.restlet.net/v1/incidents/" + uuId);
     } else {
       var req = unirest("GET", "https://showyoucareapi.restlet.net/v1/incidents/");
