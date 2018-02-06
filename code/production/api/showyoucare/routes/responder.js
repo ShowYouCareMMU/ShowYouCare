@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var incident = require('../helpers/incident');
 
 /* GET response page page. */
 router.get('/:id', function(req, res, next) {
-  console.log(req.params)
-  res.render('index', { title: 'Whoops, park eleswhere : ' + req.params.id  });
+  incident.get(req.params.body, function(data){
+    res.render('incident', { incident: data });
+  })
 });
 
 module.exports = router;
