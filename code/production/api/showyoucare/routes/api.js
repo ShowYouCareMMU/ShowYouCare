@@ -4,6 +4,14 @@ var { Client } = require('pg');
 
 const connectionString = process.env.DATABASE_URL || "postgres://lrwxrprpllqdri:4c6a84d0ec6ab6a24202b34345f904e6d24e03c961c0c835612592fba34846ba@ec2-23-21-198-69.compute-1.amazonaws.com:5432/d6k3s72pj066im";
 
+router.all('*', function(req, res){
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+})
+
+
 router.post('/event/:eventId', function (req, res) {
   var client = new Client({
     connectionString: connectionString,
@@ -14,10 +22,10 @@ router.post('/event/:eventId', function (req, res) {
 
   client.query("INSERT INTO Event (eventId, time, playerId) VALUES ('" + req.params.eventId + "', '" + new Date().toISOString() + "', '" + req.body.playerId + "');", (err, insertResult) => {
     if(err) {
-      res.send(err)
-      throw err
+      res.status(500).json({ message: err})
+    } else {
+      res.status(204).json({ message: "success" })
     }
-    res.send(insertResult)
   })
 })
 

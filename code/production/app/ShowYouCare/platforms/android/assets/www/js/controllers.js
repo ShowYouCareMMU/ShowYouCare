@@ -12,17 +12,16 @@ angular.module('syc.controllers', ['angularMoment'])
 })
 
 .controller('BrowseCtrl', function($scope) {
-  
-  $http({
-    method: 'GET',
-    url: 'https://showyoucare.herokuapp.com/r/'
-  }, postData)
-  .then(function successCallback(response) {
-    $scope.success = true
-  }, function errorCallback(response) {
-    $scope.success = false
-  });
 
+  // $http({
+  //   method: 'GET',
+  //   url: 'https://showyoucare.herokuapp.com/api/browse/'
+  // }, postData)
+  // .then(function successCallback(response) {
+  //   $scope.success = true
+  // }, function errorCallback(response) {
+  //   $scope.success = false
+  // });
 
   var data = [
     { id: 1, dateTime: new Date(2017, 11, 1, 11, 6), apologised: false, distance: '0.6 miles away' },
@@ -52,20 +51,16 @@ angular.module('syc.controllers', ['angularMoment'])
 
         window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
           var postData = {
-            pushId: status.subscriptionStatus.userId,
-            uuId: uuid,
-            datetime: new Date()
+            playerId: status.subscriptionStatus.userId
           }
 
-          $http({
-            method: 'GET',
-            url: 'https://showyoucare.herokuapp.com/r/'
-          }, postData)
-          .then(function successCallback(response) {
-            $scope.success = true
-          }, function errorCallback(response) {
-            $scope.success = false
+          $http.get('https://showyoucare.herokuapp.com/api/event/' + uuid, {}).then(function(success){
+            console.log(success)
+          }, function(err){
+            console.error(err)
           });
+
+
         })
       }
       document.getElementById("full-content").style.opacity = 1;
