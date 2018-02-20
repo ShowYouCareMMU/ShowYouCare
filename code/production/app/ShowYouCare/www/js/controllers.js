@@ -48,16 +48,18 @@ angular.module('syc.controllers', ['angularMoment'])
         alert("Code couldn't be scanned")
       } else {
         var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
-
+        
         window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
           var postData = {
             playerId: status.subscriptionStatus.userId
           }
 
-          $http.get('https://showyoucare.herokuapp.com/api/event/' + uuid)
+          $http.post('http://10.0.2.2:3000/api/event/' + uuid, postData)
           .then(function(success){
+            $scope.success = true
             console.log(JSON.stringify(success))
           }, function(err){
+            $scope.success = false
             console.error(JSON.stringify(err))
           });
 
