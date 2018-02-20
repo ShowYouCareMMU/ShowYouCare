@@ -12,10 +12,10 @@ angular.module('syc.controllers', ['angularMoment'])
 })
 
 .controller('BrowseCtrl', function($scope) {
-  
+
   $http({
     method: 'GET',
-    url: 'https://showyoucare.herokuapp.com/r/'
+    url: 'https://showyoucare.herokuapp.com/api/get'
   }, postData)
   .then(function successCallback(response) {
     $scope.success = true

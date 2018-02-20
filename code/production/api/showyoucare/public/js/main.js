@@ -2,7 +2,8 @@ $(function(){
 
   $('#apologise').click(function(){
     $.ajax({
-      url: "https://showyoucare.herokuapp.co.uk/",
+      url: "https://showyoucare.herokuapp.co.uk/api/event/" + eventId + "/state/APOLOGISE",
+      type: 'POST',
       success: function(){
         $('.result.success').fadeIn();
       },
@@ -14,6 +15,16 @@ $(function(){
 
   $('#ignore').click(function(){
     $('.result.ignore').fadeIn();
+    $.ajax({
+      url: "https://showyoucare.herokuapp.co.uk/api/event/" + eventId + "/state/IGNORE",
+      type: 'POST',
+      success: function(){
+        $('.result.success').fadeIn();
+      },
+      error: function(){
+        $('.result.fail').fadeIn();
+      }
+    });
   })
 
 });

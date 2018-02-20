@@ -6,20 +6,19 @@
       <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
       <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:100,400,700" rel="stylesheet">
       <link rel="stylesheet" href="/style.css">
-      <link rel="stylesheet" href="/responsive.css">
     </head>
     <body>
       <div class="wrapper">
         <div class="header">
           <h1>Someone feels bummed out by your parking</h1>
-          <p>{{ time }}</p>
+          <p>{{ event.time }}</p>
         </div>
       </div>
 
       <div class="wrapper">
         <div class="content">
           <p>Dear Driver,</p>
-          <p>Someone reported your parking today because your vehicle was {{ reason }}.</p>
+          <p>Someone reported your parking today because your vehicle was parked irresponsibly.</p>
           <p>Although your vehicle may not have been parked illegally, it’s caused someone distress. We’re bridging the gap between two strangers in an attempt to make the area you share a safer place.</p>
           <p><i>Safe driving,</i></p>
           <p><i>Show You Care Team</i></p>
@@ -56,7 +55,7 @@
           <p>Your apology couldn't be sent at this time. Please try again later</p>
         </div>
       </div>
-
+    <script>var eventId = "{{ event.eventid }}";</script>
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
   </body>
