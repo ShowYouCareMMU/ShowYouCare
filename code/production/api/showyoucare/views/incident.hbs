@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="/style.css">
     </head>
     <body>
+      <div class="loading"></div>
       <div class="wrapper">
         <div class="header">
           <h1>Someone feels bummed out by your parking</h1>
@@ -40,7 +41,7 @@
         </div>
       </div>
 
-      <div class="result ignore">
+      <div class="result ignore" {{#if state }} style="display: block;" {{/if}}>
         <div class="wrapper">
           <img src="/images/success.png" />
           <h1>Thank you</h1>

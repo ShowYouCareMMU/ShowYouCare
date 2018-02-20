@@ -45,7 +45,7 @@ router.get('/event/:eventId', function (req, res) {
 })
 
 // UPDATE eventId with stateId
-router.post('/event/:eventId/state/:state', function(req, res) {
+router.post('/event/:eventId/state/:stateId', function(req, res) {
   var client = new Client({
     connectionString: connectionString,
     ssl: true

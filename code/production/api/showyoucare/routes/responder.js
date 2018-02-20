@@ -16,15 +16,12 @@ router.get('/:eventId', function(req, res, next) {
 
   client.query("SELECT * FROM Event WHERE eventId = '" + req.params.eventId + "';", (err, eventResult) => {
     client.query("SELECT * FROM EventToState WHERE eventId = '" + req.params.eventId + "' ORDER BY time DESC;", (err, eventStateResult) => {
-      console.log(eventResult.rows)
       res.render('incident', {
         event: eventResult.rows[0],
         state: eventStateResult.rows[0]
       });
     })
   })
-
-
 });
 
 module.exports = router;
