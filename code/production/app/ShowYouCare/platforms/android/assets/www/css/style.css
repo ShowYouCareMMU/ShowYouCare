@@ -13,3 +13,5 @@
 
 .result { height: 100%; width: 100%; text-align: center; padding: 100px 60px 50px 60px; background-color: #f4f7f7; }
 .result p { color: #1f4e5f; font-size: 22px; line-height: 1.5em; margin-top: 50px; }
+
+.incident-instructions { height: 100px; width: 100px; background-color: black; z-index: 99999; position: absolute; top: 0; left: 0; }

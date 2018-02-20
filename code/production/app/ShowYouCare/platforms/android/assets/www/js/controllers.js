@@ -12,7 +12,6 @@ angular.module('syc.controllers', ['angularMoment'])
 })
 
 .controller('BrowseCtrl', function($scope) {
-
   // $http({
   //   method: 'GET',
   //   url: 'https://showyoucare.herokuapp.com/api/browse/'
@@ -35,12 +34,20 @@ angular.module('syc.controllers', ['angularMoment'])
     d.friendlyDateTime = moment(d.dateTime).calendar()
   }
 
+  $scope.$on('$locationChangeSuccess', function() {
+    console.log("$locationChangeSuccess")
+    document.getElementById("full-content").style.height = "";
+    if(QRScanner !== null){
+      QRScanner.destroy();
+    }
+  });
+
   $scope.incidents = data
 
 })
 
 .controller('NewIncidentCtrl', function($scope, $http) {
-  document.getElementById("full-content").style.opacity = 0;
+  document.getElementById("full-content").style.height = "43px";
 
   if(QRScanner !== null){
     QRScanner.scan(function(err, text){
@@ -54,16 +61,16 @@ angular.module('syc.controllers', ['angularMoment'])
             playerId: status.subscriptionStatus.userId
           }
 
-          $http.get('https://showyoucare.herokuapp.com/api/event/' + uuid, {}).then(function(success){
-            console.log(success)
+          $http.post('https://showyoucare.herokuapp.com/api/event/' + uuid, postData)
+          .then(function(success){
+            $scope.success = true
           }, function(err){
-            console.error(err)
+            $scope.success = false
           });
-
 
         })
       }
-      document.getElementById("full-content").style.opacity = 1;
+      document.getElementById("full-content").style.height = "";
       QRScanner.destroy();
     });
     QRScanner.show();
