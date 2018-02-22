@@ -108,9 +108,9 @@ router.post('/event/:eventId/state/:stateId', function(req, res) {
             include_player_ids: [ eventResult.rows[0].playerid ]
           }, function(err, resp) {
               if(err) {
-                console.error(err)
+                res.status(500).send({ message: 'Failed to send' })
               } else {
-                console.log(resp)
+                res.status(200).send({ message: 'Success' })
               }
           });
         })
