@@ -1,0 +1,3 @@
+rootProject.name = 'SYC_QR_Generator'
+
+include ':app'

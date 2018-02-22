@@ -106,4 +106,7 @@
     <feature name="OneSignalPush">
         <param name="ios-package" value="OneSignalPush" />
     </feature>
+    <feature name="Geolocation">
+        <param name="ios-package" value="CDVLocation" />
+    </feature>
 </widget>

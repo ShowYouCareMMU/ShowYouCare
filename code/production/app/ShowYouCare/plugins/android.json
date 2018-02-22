@@ -27,6 +27,9 @@
     },
     "cordova-plugin-ionic-webview": {
       "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "showyoucare.mmu.ac.uk"
     }
   },
   "dependent_plugins": {}

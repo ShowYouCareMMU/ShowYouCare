@@ -16,7 +16,6 @@ angular.module('syc', ['ionic', 'syc.controllers'])
       var notificationOpenedCallback = function(jsonData) {
         console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
       };
-
       window.plugins.OneSignal
         .startInit("2d327c1f-f855-4163-aac7-c8724674deca")
         .handleNotificationOpened(notificationOpenedCallback)

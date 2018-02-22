@@ -15,6 +15,7 @@
     "cordova-ios": "4.5.4",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-ionic-webview": "^1.1.16",
     "cordova-plugin-qrscanner": "^2.5.0",
     "cordova-plugin-splashscreen": "^4.0.3",
@@ -33,7 +34,8 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {}
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-geolocation": {}
     },
     "platforms": [
       "android"

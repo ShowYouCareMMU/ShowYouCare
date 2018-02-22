@@ -38,9 +38,14 @@ router.post('/event/:eventId', function (req, res) {
 
   client.connect()
 
-  client.query("INSERT INTO Event (eventId, time, playerId) VALUES ('" + req.params.eventId + "', '" + new Date().toISOString() + "', '" + req.body.playerId + "');", (err, insertResult) => {
+  client.query("INSERT INTO Event (eventId, location, time, playerId) VALUES ('" + req.params.eventId + "', POINT(" + req.body.location.latitude + "," + req.body.location.longitude + ") ,'" + new Date().toISOString() + "', '" + req.body.playerId + "');", (err, insertResult) => {
     if(err) {
-      res.status(500).json({ message: err})
+      console.log(err)
+      if(err.code == 23505){
+        res.status(409).json({ message: "fail" })
+      } else {
+        res.status(500).json({ message: err})
+      }
     } else {
       res.status(204).json({ message: "success" })
     }

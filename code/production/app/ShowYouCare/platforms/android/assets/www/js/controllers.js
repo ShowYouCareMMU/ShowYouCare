@@ -11,28 +11,21 @@ angular.module('syc.controllers', ['angularMoment'])
 
 })
 
-.controller('BrowseCtrl', function($scope) {
-  // $http({
-  //   method: 'GET',
-  //   url: 'https://showyoucare.herokuapp.com/api/browse/'
-  // }, postData)
-  // .then(function successCallback(response) {
-  //   $scope.success = true
-  // }, function errorCallback(response) {
-  //   $scope.success = false
-  // });
+.controller('BrowseCtrl', function($scope, $http) {
+  $http.get('https://showyoucare.herokuapp.com/api/event/')
+  .then(function(response){
+    var events = response.data.event;
 
-  var data = [
-    { id: 1, dateTime: new Date(2017, 11, 1, 11, 6), apologised: false, distance: '0.6 miles away' },
-    { id: 2, dateTime: new Date(2017, 11, 5, 16, 12), apologised: true, distance: '1.5 miles away' },
-    { id: 3, dateTime: new Date(2017, 12, 7, 9, 43), apologised: false, distance: '8 miles away' },
-    { id: 4, dateTime: new Date(2017, 12, 28, 13, 21), apologised: true, distance: '1.2 miles away' },
-    { id: 5, dateTime: new Date(2018, 1, 12, 19, 6), apologised: false, distance: '32 miles away' }
-  ]
+    for(e of events){
+      e.friendlyDateTime = moment(e.time).calendar()
+      e.distance = "0.3 miles away"
+    }
 
-  for(d of data){
-    d.friendlyDateTime = moment(d.dateTime).calendar()
-  }
+    $scope.incidents = events
+
+  }, function(err){
+    alert("An error occured. Please try again later.")
+  });
 
   $scope.$on('$locationChangeSuccess', function() {
     document.getElementById("full-content").style.height = "";
@@ -40,13 +33,25 @@ angular.module('syc.controllers', ['angularMoment'])
       QRScanner.destroy();
     }
   });
-
-  $scope.incidents = data
-
 })
 
 .controller('NewIncidentCtrl', function($scope, $http) {
   document.getElementById("full-content").style.height = "43px";
+
+  var postData = {
+    location: {
+      latitude: 10.0,
+      longitude: 10.0
+    }
+  }
+
+  navigator.geolocation.getCurrentPosition(function(position){
+    postData.location = position.coords
+  })
+
+  window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+    postData.playerId =  status.subscriptionStatus.userId || null
+  })
 
   if(QRScanner !== null){
     QRScanner.scan(function(err, text){
@@ -54,20 +59,15 @@ angular.module('syc.controllers', ['angularMoment'])
         alert("Code couldn't be scanned")
       } else {
         var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
-
-        window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-          var postData = {
-            playerId: status.subscriptionStatus.userId
-          }
-
-          $http.post('https://showyoucare.herokuapp.com/api/event/' + uuid, postData)
-          .then(function(success){
-            $scope.success = true
-          }, function(err){
-            $scope.success = false
-          });
-
-        })
+        
+        $http.post('http://localhost:3000/api/event/' + uuid, postData)
+        .then(function(success){
+          console.log(JSON.stringify(success))
+          $scope.success = true
+        }, function(err){
+          console.log(JSON.stringify(err))
+          $scope.success = false
+        });
       }
       document.getElementById("full-content").style.height = "";
       QRScanner.destroy();

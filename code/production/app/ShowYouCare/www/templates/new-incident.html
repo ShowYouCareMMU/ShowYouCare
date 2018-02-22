@@ -1,16 +1,18 @@
 <ion-view view-title="Scan a SYC Sticker">
   <ion-content>
-    <div class="incident-instructions">
-      <a class="button button-full" href="#/browse">Cancel</a>
-    </div>
     <div class="result success" ng-show="success === true">
       <img src="img/success.png" />
       <p>Place the sticker on the car and we'll handle the rest</p>
       <a href="#/app/" class="button continue">Continue</a>
     </div>
-    <div class="result fail" ng-show="success === false">
+    <div class="result fail" ng-show="fail === true">
       <img src="img/fail.png" />
       <p>We couldn't send your request right now. Please try again later.</p>
+      <a href="#/app/" class="button continue">Continue</a>
+    </div>
+    <div class="result fail" ng-show="alreadyExists === true">
+      <img src="img/fail.png" />
+      <p>This sticker has already been used. Please scan a new one.</p>
       <a href="#/app/" class="button continue">Continue</a>
     </div>
   </ion-content>

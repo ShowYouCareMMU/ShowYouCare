@@ -41,6 +41,8 @@
 		377DFA5CA23240ECB3457C0D /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9954827CADD3493E8223C423 /* IonicKeyboard.m */; };
 		BA1A9E252F004CF7B032474D /* OneSignalPush.m in Sources */ = {isa = PBXBuildFile; fileRef = F9DA3D7F2F30481BAD192D38 /* OneSignalPush.m */; };
 		1D0231AC07C5440C93EAF5A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 501BAD807C82426DB96E7163 /* SystemConfiguration.framework */; };
+		53C364DEBF3E4826BD4ACABE /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 869DE8458FF84E96B1192863 /* CDVLocation.m */; };
+		508AC4A2802F4EEF94783E33 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6396455064A347198A6AA64C /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +131,9 @@
 		F9DA3D7F2F30481BAD192D38 /* OneSignalPush.m */ = {isa = PBXFileReference; name = "OneSignalPush.m"; path = "onesignal-cordova-plugin/OneSignalPush.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		48F041A9B647498CAA33B319 /* OneSignalPush.h */ = {isa = PBXFileReference; name = "OneSignalPush.h"; path = "onesignal-cordova-plugin/OneSignalPush.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		501BAD807C82426DB96E7163 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		869DE8458FF84E96B1192863 /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		A831DB8EAF81486BB940DA12 /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		6396455064A347198A6AA64C /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +145,7 @@
 				957CD37D84194466AE733BD2 /* WebKit.framework in Frameworks */,
 				04CDD706D38E4E8C8CB06DB7 /* libz.tbd in Frameworks */,
 				1D0231AC07C5440C93EAF5A7 /* SystemConfiguration.framework in Frameworks */,
+				508AC4A2802F4EEF94783E33 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +219,7 @@
 				D2D32BA77A8044C58645ADD5 /* WebKit.framework */,
 				A364B98F34A2425D8FB28AE8 /* libz.tbd */,
 				501BAD807C82426DB96E7163 /* SystemConfiguration.framework */,
+				6396455064A347198A6AA64C /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -283,6 +290,8 @@
 				B8842FFE0C1547A8B39DF550 /* IonicKeyboard.h */,
 				F9DA3D7F2F30481BAD192D38 /* OneSignalPush.m */,
 				48F041A9B647498CAA33B319 /* OneSignalPush.h */,
+				869DE8458FF84E96B1192863 /* CDVLocation.m */,
+				A831DB8EAF81486BB940DA12 /* CDVLocation.h */,
 			);
 			name = Plugins;
 			path = "MyApp/Plugins";
@@ -417,6 +426,7 @@
 				944BD850A67B48918190790E /* CDVViewController+SplashScreen.m in Sources */,
 				377DFA5CA23240ECB3457C0D /* IonicKeyboard.m in Sources */,
 				BA1A9E252F004CF7B032474D /* OneSignalPush.m in Sources */,
+				53C364DEBF3E4826BD4ACABE /* CDVLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
