@@ -20,11 +20,12 @@ router.get('/:eventId', function(req, res, next) {
       if(eventResult.rows[0].time){
         eventResult.rows[0].time = moment(eventResult.rows[0].time).calendar()
       }
-      
+
       res.render('incident', {
         event: eventResult.rows[0],
         state: eventStateResult.rows[0]
       });
+      client.close()
     })
   })
 });

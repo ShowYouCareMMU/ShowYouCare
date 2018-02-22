@@ -23,10 +23,9 @@ router.get('/event', function (req, res) {
     if(err) {
       res.status(500).json({ message: err})
     } else {
-      res.send({
-        event: eventsResult.rows
-      })
+      res.send(eventsResult.rows)
     }
+    client.end()
   })
 })
 
@@ -49,6 +48,7 @@ router.post('/event/:eventId', function (req, res) {
     } else {
       res.status(204).json({ message: "success" })
     }
+    client.end();
   })
 })
 
@@ -71,6 +71,7 @@ router.get('/event/:eventId', function (req, res) {
         event: eventResult.rows[0],
         states: eventStateResult.rows
       })
+      client.close()
     })
   })
 })
@@ -87,9 +88,11 @@ router.post('/event/:eventId/state/:stateId', function(req, res) {
   client.query("INSERT INTO EventToState (eventId, stateId, time) VALUES ('" + req.params.eventId + "', '" + req.params.stateId + "', '" + new Date().toISOString() + "');", (err, insertResult) => {
     if(err) {
       res.send(err)
+      client.close()
       throw err
     }
     res.send(insertResult)
+    client.close()
   })
 });
 

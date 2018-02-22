@@ -2,36 +2,44 @@ angular.module('syc.controllers', ['angularMoment'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  $scope.$on('$ionicView.enter', function(e) {
-    console.log('$ionicView.enter :: init')
-    navigator.geolocation.getCurrentPosition(function(position){
-      window.location = position.coords
-    })
-  });
-
 })
 
 .controller('BrowseCtrl', function($scope, $http) {
-  $http.get('https://showyoucare.herokuapp.com/api/event/')
+  var mapOptions = {
+    // center: latLng,
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  var mcr = { lat: 53.4808, lng: -2.2426 };
+
+  $scope.map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: mcr
+  });
+
+  $http.get('https://showyoucare.herokuapp.com/api/event')
   .then(function(response){
-    var events = response.data.event;
+    console.log(response.data)
+
+    var events = response.data;
 
     for(e of events){
-      if(!moment(e.time).isValid()){
-        e = null
-        continue;
-      }
+      var marker = new google.maps.Marker({
+          map: $scope.map,
+          animation: google.maps.Animation.DROP,
+          position: mcr
+      });
 
-      e.friendlyDateTime = moment(e.time).calendar()
-      e.distance = "0.3 miles away"
-      // e.distance = Math.round(haversine(position.coords, offerLoc, {unit: 'mile'}) * 10) / 10 + " mi " + String.fromCharCode(187)
+      var infoWindow = new google.maps.InfoWindow({
+          content: "Here I am!"
+      });
+
+      google.maps.event.addListener(marker, 'click', function () {
+          infoWindow.open($scope.map, marker);
+      });
     }
 
-    $scope.incidents = events
 
   }, function(err){
     alert("An error occured. Please try again later.")

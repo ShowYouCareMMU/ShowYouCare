@@ -2,28 +2,24 @@ angular.module('syc.controllers', ['angularMoment'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  // $scope.$on('$ionicView.enter', function(e) {
-  //});
-
 })
 
 .controller('BrowseCtrl', function($scope, $http) {
-  $http.get('https://showyoucare.herokuapp.com/api/event/')
+  $http.get('http://10.0.2.2/api/event')
   .then(function(response){
-    var events = response.data.event;
+    console.log(response.data)
 
-    for(e of events){
+    var events = response.data;
+
+    events.forEach(function(e, i, o){
       e.friendlyDateTime = moment(e.time).calendar()
-      e.distance = "0.3 miles away"
-    }
+    })
 
     $scope.incidents = events
 
   }, function(err){
+
+    alert(JSON.stringify(err))
     alert("An error occured. Please try again later.")
   });
 
@@ -40,8 +36,8 @@ angular.module('syc.controllers', ['angularMoment'])
 
   var postData = {
     location: {
-      latitude: 10.0,
-      longitude: 10.0
+      latitude: null,
+      longitude: null
     }
   }
 
@@ -59,14 +55,17 @@ angular.module('syc.controllers', ['angularMoment'])
         alert("Code couldn't be scanned")
       } else {
         var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
-        
-        $http.post('http://localhost:3000/api/event/' + uuid, postData)
+
+        $http.post('http://10.0.2.2:3000/api/event/' + uuid, postData)
         .then(function(success){
-          console.log(JSON.stringify(success))
           $scope.success = true
         }, function(err){
-          console.log(JSON.stringify(err))
-          $scope.success = false
+          if(err.status == 409){
+            $scope.alreadyExists = true
+          } else {
+            $scope.fail = true
+          }
+
         });
       }
       document.getElementById("full-content").style.height = "";
