@@ -16,6 +16,7 @@
     "pg": "^7.4.1",
     "restlet": "^0.4.1",
     "serve-favicon": "~2.4.5",
+    "simple-onesignal": "^1.0.4",
     "unirest": "^0.5.1"
   }
 }

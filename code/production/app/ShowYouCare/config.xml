@@ -3,7 +3,7 @@
     <name>Show You Care</name>
     <description>Park elsewhere</description>
     <author email="showyoucaremmu@gmail.com" href="http://mmu.ac.uk">Show You Care Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.13:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

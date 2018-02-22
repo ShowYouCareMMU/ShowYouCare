@@ -5,11 +5,6 @@ angular.module('syc.controllers', ['angularMoment'])
 })
 
 .controller('BrowseCtrl', function($scope, $http) {
-  var mapOptions = {
-    // center: latLng,
-    zoom: 15,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
 
   var mcr = { lat: 53.4808, lng: -2.2426 };
 
@@ -20,27 +15,32 @@ angular.module('syc.controllers', ['angularMoment'])
 
   $http.get('https://showyoucare.herokuapp.com/api/event')
   .then(function(response){
-    console.log(response.data)
-
     var events = response.data;
 
     for(e of events){
-      var marker = new google.maps.Marker({
+      if(e.location && e.location.x && e.location.y){
+
+        marker = new google.maps.Marker({
+          position: {
+            lat: e.location.x,
+            lng: e.location.y
+          },
           map: $scope.map,
-          animation: google.maps.Animation.DROP,
-          position: mcr
-      });
+          contentString: `
+            <div class="map_infowindow">
+              ` + moment(e.time).calendar() + `
+            </div>`
+        });
 
-      var infoWindow = new google.maps.InfoWindow({
-          content: "Here I am!"
-      });
+        var infowindow = new google.maps.InfoWindow({});
 
-      google.maps.event.addListener(marker, 'click', function () {
-          infoWindow.open($scope.map, marker);
-      });
+        marker.addListener('click', function() {
+          infowindow.setContent(this.contentString);
+          infowindow.open(map, this);
+          map.setCenter(this.getPosition());
+         });
+      }
     }
-
-
   }, function(err){
     alert("An error occured. Please try again later.")
   });
@@ -78,7 +78,7 @@ angular.module('syc.controllers', ['angularMoment'])
       } else {
         var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
 
-        $http.post('http://10.0.2.2:3000/api/event/' + uuid, postData)
+        $http.post('https://showyoucare.herokuapp.com/api/event/' + uuid, postData)
         .then(function(success){
           $scope.success = true
         }, function(err){

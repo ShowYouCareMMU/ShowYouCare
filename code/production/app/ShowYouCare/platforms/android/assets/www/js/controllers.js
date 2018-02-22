@@ -5,21 +5,43 @@ angular.module('syc.controllers', ['angularMoment'])
 })
 
 .controller('BrowseCtrl', function($scope, $http) {
-  $http.get('http://10.0.2.2/api/event')
-  .then(function(response){
-    console.log(response.data)
 
+  var mcr = { lat: 53.4808, lng: -2.2426 };
+
+  $scope.map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: mcr
+  });
+
+  $http.get('https://showyoucare.herokuapp.com/api/event')
+  .then(function(response){
     var events = response.data;
 
-    events.forEach(function(e, i, o){
-      e.friendlyDateTime = moment(e.time).calendar()
-    })
+    for(e of events){
+      if(e.location && e.location.x && e.location.y){
 
-    $scope.incidents = events
+        marker = new google.maps.Marker({
+          position: {
+            lat: e.location.x,
+            lng: e.location.y
+          },
+          map: $scope.map,
+          contentString: `
+            <div class="map_infowindow">
+              ` + moment(e.time).calendar() + `
+            </div>`
+        });
 
+        var infowindow = new google.maps.InfoWindow({});
+
+        marker.addListener('click', function() {
+          infowindow.setContent(this.contentString);
+          infowindow.open(map, this);
+          map.setCenter(this.getPosition());
+         });
+      }
+    }
   }, function(err){
-
-    alert(JSON.stringify(err))
     alert("An error occured. Please try again later.")
   });
 
