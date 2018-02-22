@@ -16,10 +16,10 @@ router.get('/:eventId', function(req, res, next) {
   client.connect()
 
   client.query("SELECT * FROM Event WHERE eventId = '" + req.params.eventId + "';", (err, eventResult) => {
-    if(err){ throw err }
+    if(err){ throw err; res.status(500).send(err) }
 
     client.query("SELECT * FROM EventToState WHERE eventId = '" + req.params.eventId + "' ORDER BY time DESC;", (err, eventStateResult) => {
-      if(err){ throw err }
+      if(err){ throw err; res.status(500).send(err) }
 
       if(eventResult.rows[0].time){
         eventResult.rows[0].time = moment(eventResult.rows[0].time).calendar()
