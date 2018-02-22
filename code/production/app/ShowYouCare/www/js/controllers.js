@@ -18,7 +18,10 @@ angular.module('syc.controllers', ['angularMoment'])
     var events = response.data;
 
     for(e of events){
-      if(e.location && e.location.x && e.location.y){
+      console.log(e.location)
+
+      if(e.location){
+        console.log('1')
 
         marker = new google.maps.Marker({
           position: {
@@ -32,14 +35,20 @@ angular.module('syc.controllers', ['angularMoment'])
             </div>`
         });
 
+        console.log('2')
+
         var infowindow = new google.maps.InfoWindow({});
+
+        console.log('3')
 
         marker.addListener('click', function() {
           infowindow.setContent(this.contentString);
           infowindow.open(map, this);
           map.setCenter(this.getPosition());
-         });
-      }
+        });
+
+        console.log('4')
+       }
     }
   }, function(err){
     alert("An error occured. Please try again later.")
