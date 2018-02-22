@@ -16,14 +16,18 @@ router.get('/:eventId', function(req, res, next) {
   client.connect()
 
   client.query("SELECT * FROM Event WHERE eventId = '" + req.params.eventId + "';", (err, eventResult) => {
+    if(err){ throw err }
+
     client.query("SELECT * FROM EventToState WHERE eventId = '" + req.params.eventId + "' ORDER BY time DESC;", (err, eventStateResult) => {
+      if(err){ throw err }
+
       if(eventResult.rows[0].time){
         eventResult.rows[0].time = moment(eventResult.rows[0].time).calendar()
       }
-      
+
       res.render('incident', {
-        event: eventResult.rows[0],
-        state: eventStateResult.rows[0]
+        event: eventResult.rows[0] || [],
+        state: eventStateResult.rows[0] || []
       });
       client.end()
     })
