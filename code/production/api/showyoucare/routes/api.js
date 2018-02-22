@@ -20,7 +20,7 @@ router.get('/event', function (req, res) {
 
   client.connect()
 
-  client.query("SELECT * FROM Event ORDER BY time DESC LIMIT 5;", (err, eventsResult) => {
+  client.query("SELECT * FROM Event WHERE location IS NOT NULL ORDER BY time DESC;", (err, eventsResult) => {
     if(err) {
       res.status(500).json({ message: err})
     } else {
@@ -136,21 +136,5 @@ router.post('/event/:eventId/state/:stateId', function(req, res) {
   }
 });
 
-
-router.get('/notification', function(req, res) {
-  onesignal.configure('2d327c1f-f855-4163-aac7-c8724674deca', 'ZTIzOWZiOTEtNmJkYy00MDI5LThiZGQtYWI4ODJmOTc3YTgw');
-  onesignal.sendMessage({
-    contents: { en:' Someone parked for their bad parking!' },
-    include_player_ids: [ 'a79da045-b457-4c9e-b538-3f8a3c0accc7' ]
-  }, function(err, resp) {
-      if(err) {
-        console.error(err)
-      } else {
-        console.log(resp)
-      }
-  });
-
-  res.send('Done')
-})
 
 module.exports = router;
