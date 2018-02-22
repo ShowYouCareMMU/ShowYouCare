@@ -35,7 +35,6 @@ angular.module('syc.controllers', ['angularMoment'])
   }
 
   $scope.$on('$locationChangeSuccess', function() {
-    console.log("$locationChangeSuccess")
     document.getElementById("full-content").style.height = "";
     if(QRScanner !== null){
       QRScanner.destroy();

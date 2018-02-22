@@ -11,16 +11,21 @@ angular.module('syc.controllers', ['angularMoment'])
 
 })
 
-.controller('BrowseCtrl', function($scope) {
-  // $http({
-  //   method: 'GET',
-  //   url: 'https://showyoucare.herokuapp.com/api/browse/'
-  // }, postData)
-  // .then(function successCallback(response) {
-  //   $scope.success = true
-  // }, function errorCallback(response) {
-  //   $scope.success = false
-  // });
+.controller('BrowseCtrl', function($scope, $http) {
+  $http.get('http://10.0.2.2:3000/api/event/')
+  .then(function(response){
+    var events = response.data.event;
+
+    for(e of events){
+      e.friendlyDateTime = moment(e.time).calendar()
+      e.distance = "0.3 miles away"
+    }
+
+    $scope.incidents = events
+
+  }, function(err){
+    console.error(JSON.stringify(events))
+  });
 
   var data = [
     { id: 1, dateTime: new Date(2017, 11, 1, 11, 6), apologised: false, distance: '0.6 miles away' },
@@ -30,19 +35,12 @@ angular.module('syc.controllers', ['angularMoment'])
     { id: 5, dateTime: new Date(2018, 1, 12, 19, 6), apologised: false, distance: '32 miles away' }
   ]
 
-  for(d of data){
-    d.friendlyDateTime = moment(d.dateTime).calendar()
-  }
-
   $scope.$on('$locationChangeSuccess', function() {
     document.getElementById("full-content").style.height = "";
     if(QRScanner !== null){
       QRScanner.destroy();
     }
   });
-
-  $scope.incidents = data
-
 })
 
 .controller('NewIncidentCtrl', function($scope, $http) {

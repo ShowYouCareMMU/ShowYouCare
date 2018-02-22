@@ -11,6 +11,25 @@ router.all('*', function(req, res, next){
   next();
 })
 
+router.get('/event', function (req, res) {
+  var client = new Client({
+    connectionString: connectionString,
+    ssl: true
+  })
+
+  client.connect()
+
+  client.query("SELECT * FROM Event ORDER BY time DESC LIMIT 5;", (err, eventsResult) => {
+    if(err) {
+      res.status(500).json({ message: err})
+    } else {
+      res.send({
+        event: eventsResult.rows
+      })
+    }
+  })
+})
+
 router.post('/event/:eventId', function (req, res) {
   var client = new Client({
     connectionString: connectionString,
