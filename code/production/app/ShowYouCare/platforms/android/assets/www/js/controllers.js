@@ -18,8 +18,7 @@ angular.module('syc.controllers', ['angularMoment'])
     var events = response.data;
 
     for(e of events){
-      if(e.location && e.location.x && e.location.y){
-
+      if(e.location){
         marker = new google.maps.Marker({
           position: {
             lat: e.location.x,
@@ -38,8 +37,8 @@ angular.module('syc.controllers', ['angularMoment'])
           infowindow.setContent(this.contentString);
           infowindow.open(map, this);
           map.setCenter(this.getPosition());
-         });
-      }
+        });
+       }
     }
   }, function(err){
     alert("An error occured. Please try again later.")
@@ -78,7 +77,7 @@ angular.module('syc.controllers', ['angularMoment'])
       } else {
         var uuid = text.replace("https://showyoucare.herokuapp.com/r/", "")
 
-        $http.post('http://10.0.2.2:3000/api/event/' + uuid, postData)
+        $http.post('https://showyoucare.herokuapp.com/api/event/' + uuid, postData)
         .then(function(success){
           $scope.success = true
         }, function(err){
