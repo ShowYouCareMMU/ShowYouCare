@@ -25,10 +25,16 @@ router.get('/:eventId', function(req, res, next) {
         eventResult.rows[0].time = moment(eventResult.rows[0].time).calendar()
       }
 
-      res.render('incident', {
-        event: eventResult.rows[0] || [],
-        state: eventStateResult.rows[0] || []
-      });
+      if(eventStateResult.rowCount === 0){
+        res.render('incident', {
+          event: eventResult.rows[0]
+        });
+      } else {
+        res.render('incident', {
+          event: eventResult.rows[0],
+          state: eventStateResult.rows[0]
+        });
+      }
       client.end()
     })
   })
