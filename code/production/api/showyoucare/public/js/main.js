@@ -9,7 +9,8 @@ $(function(){
         $('.result.apologised').fadeIn();
         $('.loading').fadeOut()
       },
-      error: function(){
+      error: function(err){
+        console.error(err)
         $('.result.fail').fadeIn();
         $('.loading').fadeOut()
       }

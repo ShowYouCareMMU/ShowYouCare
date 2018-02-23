@@ -63,7 +63,9 @@ router.get('/event/:eventId', function (req, res) {
   client.query("SELECT * FROM Event WHERE eventId = '" + req.params.eventId + "';", (err, eventResult) => {
     if(err) {
       res.send(err)
-      throw err
+      console.error(err)
+      client.close()
+      throw err;
     }
 
     client.query("SELECT * FROM EventToState WHERE eventId = '" + req.params.eventId + "' ORDER BY time DESC;", (err, eventStateResult) => {
@@ -89,8 +91,9 @@ router.post('/event/:eventId/state/:stateId', function(req, res) {
     client.query("SELECT stateid FROM EventToState WHERE eventid = '" + req.params.eventId + "' AND stateid = 'APOLOGISE';", (err, statesResult) => {
       if(err) {
         res.send(err)
+        console.error(err)
         client.close()
-        throw err
+        throw err;
       }
 
       if(statesResult.rowCount == 0){
@@ -98,21 +101,27 @@ router.post('/event/:eventId/state/:stateId', function(req, res) {
         client.query("SELECT playerid FROM Event WHERE eventid = '" + req.params.eventId + "';", (err, eventResult) => {
           if(err) {
             res.send(err)
-            client.end()
-            throw err
+            console.error(err)
+            client.close()
+            throw err;
           }
 
-          onesignal.configure('2d327c1f-f855-4163-aac7-c8724674deca', 'ZTIzOWZiOTEtNmJkYy00MDI5LThiZGQtYWI4ODJmOTc3YTgw');
-          onesignal.sendMessage({
-            contents: { en:' Someone parked for their bad parking!' },
-            include_player_ids: [ eventResult.rows[0].playerid ]
-          }, function(err, resp) {
-              if(err) {
-                res.status(500).send({ message: 'Failed to send' })
-              } else {
-                res.status(200).send({ message: 'Success' })
-              }
-          });
+          if(eventResult.rows[0].playerid){
+            onesignal.configure('2d327c1f-f855-4163-aac7-c8724674deca', 'ZTIzOWZiOTEtNmJkYy00MDI5LThiZGQtYWI4ODJmOTc3YTgw');
+            onesignal.sendMessage({
+              contents: { en: 'Someone parked for their bad parking!' },
+              include_player_ids: [ eventResult.rows[0].playerid ]
+            }, function(err, resp) {
+                if(err) {
+                  res.status(500).send({ message: 'Failed to send', error: err })
+                } else {
+                  res.status(200).send({ message: 'Success' })
+                }
+            });
+          } else {
+            res.status(200).send({ message: 'Success' })
+          }
+
         })
       } else {
         res.status(200).send({ message: 'Success' })
