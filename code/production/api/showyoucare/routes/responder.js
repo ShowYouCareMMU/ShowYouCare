@@ -22,7 +22,14 @@ router.get('/:eventId', function(req, res, next) {
       if(err){ throw err; res.status(500).send(err) }
 
       if(eventResult.rows[0].time){
-        eventResult.rows[0].time = moment(eventResult.rows[0].time).calendar()
+        eventResult.rows[0].time = moment(eventResult.rows[0].time).calendar({
+          sameDay : '[today at] LT',
+          nextDay : '[tomorrow at] LT',
+          nextWeek : 'dddd [at] LT',
+          lastDay : '[yesterday at] LT',
+          lastWeek : '[last] dddd [at] LT',
+          sameElse : 'L'
+        )}
       }
 
       if(eventStateResult.rowCount === 0){
