@@ -29,7 +29,7 @@ router.get('/:eventId', function(req, res, next) {
           lastDay : '[yesterday at] LT',
           lastWeek : '[last] dddd [at] LT',
           sameElse : 'L'
-        )}
+        })
       }
 
       if(eventStateResult.rowCount === 0){
